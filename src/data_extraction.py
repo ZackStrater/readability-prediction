@@ -6,6 +6,7 @@ import numpy as np
 import nltk
 from nltk.tokenize import sent_tokenize
 import re
+from scipy import stats
 
 df = pd.read_csv('../data/train_extra_200.csv', encoding = "ISO-8859-1")
 df['length_excerpt'] = df['excerpt'].str.len()
@@ -61,5 +62,7 @@ print(extra_text_df)
 
 print(df)
 
+
 df_combined = pd.concat([df, extra_text_df])
-df_combined['target'] = df['target']
+df_combined['target'] = df_combined['target'].apply(lambda x: stats.norm.rvs(loc=x, scale=0.1))
+print(df_combined)
